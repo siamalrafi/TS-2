@@ -48,3 +48,47 @@ export const createQueryBookService = async (filter: { genre: string; published:
    const result = await BookModel.aggregate(pipeline);
    return result;
 };
+
+export const updatePriceService = async (price: string): Promise<{} | null> => {
+   console.log(parseInt(price));
+
+   /*    const data = await BookModel.aggregate([
+      {
+         $match: {
+            publishDate: { $gte: 2022 },
+            price: { $type: "string" },
+         },
+      },
+      {
+         $addFields: { price: 2000 },
+      },
+   ]);
+
+   return data; */
+
+   const result = await BookModel.aggregate([
+      // {
+      //    $match: {
+      //       publishDate: { $gte: 2022 },
+      //       // price: { $type: "string" },
+      //    },
+      // },
+      {
+         $addFields: {
+            price: {
+               $toInt: {
+                  $floor: {
+                     $multiply: [{ $rand: {} }, parseInt(price)],
+                  },
+               },
+            },
+         },
+      },
+      {
+         $merge: {
+            into: "books",
+         },
+      },
+   ]);
+   return result;
+};
