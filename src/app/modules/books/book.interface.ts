@@ -15,6 +15,3 @@ export interface IBook {
    rating: number;
    price: string;
 }
-
-
-
