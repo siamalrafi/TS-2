@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { createABookService } from "./book.services";
+import { createABookService, getGenreBookService } from "./book.services";
 
 export const createABook = async (req: Request, res: Response, next: NextFunction) => {
    try {
@@ -14,6 +14,27 @@ export const createABook = async (req: Request, res: Response, next: NextFunctio
       res.status(400).json({
          status: "error",
          message: "create a book failed",
+         error: error.message,
+      });
+   }
+};
+
+export const getGenreBook = async (req: Request, res: Response, next: NextFunction) => {
+   try {
+      const filter = (req?.query?.genre as string) || "";
+
+      const result = await getGenreBookService(filter);
+
+      res.status(200).json({
+         status: "success",
+         message: "success create a book",
+         result: result,
+      });
+   } catch (error) {
+      res.status(400).json({
+         status: "error",
+         message: "create a book failed",
+         error: error.message,
       });
    }
 };
