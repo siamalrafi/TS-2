@@ -73,6 +73,11 @@ export const updatePriceService = async (price: string): Promise<{} | null> => {
       //       // price: { $type: "string" },
       //    },
       // },
+      
+      /* ---------------------------------------------
+      you need to match data by date and price ---
+      ----------------------------------------------*/
+      
       {
          $addFields: {
             price: {
