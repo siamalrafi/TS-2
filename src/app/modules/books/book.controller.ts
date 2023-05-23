@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { createABookService, getGenreBookService } from "./book.services";
+import { createABookService, createQueryBookService, getGenreBookService } from "./book.services";
 
 export const createABook = async (req: Request, res: Response, next: NextFunction) => {
    try {
@@ -24,6 +24,29 @@ export const getGenreBook = async (req: Request, res: Response, next: NextFuncti
       const filter = (req?.query?.genre as string) || "";
 
       const result = await getGenreBookService(filter);
+
+      res.status(200).json({
+         status: "success",
+         message: "success create a book",
+         result: result,
+      });
+   } catch (error) {
+      res.status(400).json({
+         status: "error",
+         message: "create a book failed",
+         error: error.message,
+      });
+   }
+};
+
+// createQueryBook
+export const createQueryBook = async (req: Request, res: Response, next: NextFunction) => {
+   try {
+      const genre = (req?.query?.genre as string) || "";
+      const published = (req?.query?.published as string) || "";
+     
+      const filter = { genre, published };
+      const result = await createQueryBookService(filter);
 
       res.status(200).json({
          status: "success",

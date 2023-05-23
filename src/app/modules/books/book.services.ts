@@ -9,7 +9,42 @@ export const createABookService = async (payload: IBook): Promise<IBook> => {
 };
 
 // get a generic book ---
-export const getGenreBookService = async (genre: string): Promise<IBook | null> => {
-   const Books = await BookModel.findOne({ genre: { $eq: genre } });
-   return Books;
+// export const getGenreBookService = async (genre: string): Promise<IBook | null> => {
+//    const Books = await BookModel.findOne({ genre: { $eq: genre } });
+//    return Books;
+// };
+
+// get a new book with aggregate ---
+export const getGenreBookService = async (filter: string): Promise<{} | null> => {
+   const pipeline = [
+      {
+         $match: {
+            genre: filter,
+         },
+      },
+   ];
+
+   const result = await BookModel.aggregate(pipeline);
+   return result;
+};
+
+export const createQueryBookService = async (filter: { genre: string; published: string }): Promise<{} | null> => {
+   console.log("filter", filter);
+
+   const pipeline = [
+      {
+         $match: {
+            genre: filter.genre, // Filter by genre "Sci-Fi"
+         },
+      },
+      {
+         $match: {
+            "publisher.name": filter.published, // Filter by publisher "Roli Books"
+         },
+      },
+   ];
+
+   // Execute the aggregation pipeline
+   const result = await BookModel.aggregate(pipeline);
+   return result;
 };
