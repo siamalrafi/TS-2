@@ -98,3 +98,6 @@ export const updatePriceService = async (price: string): Promise<{} | null> => {
 
    return result;
 };
+
+// static methods ---
+

@@ -21,6 +21,12 @@ const bookSchema = new Schema<IBook>({
    price: { type: String, required: true },
 });
 
+// static methods ---
+bookSchema.static("bookDetails", async function getDetails() {
+   const details = await this.find({ rating: "4" });
+});
+
+ 
 // 3. model declaration ---
 const BookModel = model<IBook>("Book", bookSchema);
 
