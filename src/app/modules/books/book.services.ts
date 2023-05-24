@@ -70,20 +70,20 @@ export const updatePriceService = async (price: string): Promise<{} | null> => {
       // {
       //    $match: {
       //       publishDate: { $gte: 2022 },
-      //       // price: { $type: "string" },
+      //       price: { $type: "string" },
       //    },
       // },
-      
+
       /* ---------------------------------------------
       you need to match data by date and price ---
       ----------------------------------------------*/
-      
+
       {
          $addFields: {
             price: {
                $toInt: {
                   $floor: {
-                     $multiply: [{ $rand: {} }, parseInt(price)],
+                     $multiply: [{ $rand: {} }, parseInt(price)], // input value
                   },
                },
             },
@@ -95,5 +95,6 @@ export const updatePriceService = async (price: string): Promise<{} | null> => {
          },
       },
    ]);
+
    return result;
 };

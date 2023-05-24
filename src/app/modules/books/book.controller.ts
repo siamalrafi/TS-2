@@ -70,7 +70,7 @@ export const updatePrice = async (req: Request, res: Response, next: NextFunctio
       res.status(200).json({
          status: "success",
          message: "success create a book",
-         result: result
+         result: result,
       });
    } catch (error) {
       res.status(400).json({
